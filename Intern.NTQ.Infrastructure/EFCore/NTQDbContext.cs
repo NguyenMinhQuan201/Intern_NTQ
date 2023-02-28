@@ -1,7 +1,5 @@
-﻿using Infrastructure.Configuration;
+﻿using Intern.NTQ.Infrastructure.Configuration;
 using Intern.NTQ.Infrastructure.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.EF
@@ -15,9 +13,10 @@ namespace Infrastructure.EF
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Configure using Fluent API
-
             modelBuilder.ApplyConfiguration(new UserConfiguration());
-
+            modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
+            modelBuilder.ApplyConfiguration(new ReviewConfiguration());
             //Tạo bảng được cung cấp từ Identity
             /*modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
@@ -27,6 +26,9 @@ namespace Infrastructure.EF
         }
 
         public DbSet<User> Users { get; set; }
-        
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductImg> ProductImgs { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+
     }
 }

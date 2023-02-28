@@ -9,16 +9,14 @@ using System.Threading.Tasks;
 
 namespace Intern.NTQ.Infrastructure.Configuration
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public class ReviewConfiguration : IEntityTypeConfiguration<Review>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<Review> builder)
         {
-            builder.ToTable("Users");
-
+            builder.ToTable("Reviews");
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id).ValueGeneratedOnAdd();
-
+            builder.Property(x => x.Id).UseIdentityColumn();
         }
     }
 }

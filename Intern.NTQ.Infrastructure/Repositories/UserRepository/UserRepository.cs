@@ -13,15 +13,15 @@ namespace Intern.NTQ.Infrastructure.Repositories.UserRepositories
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        private readonly NTQDbContext DbContext;
+        private readonly NTQDbContext _dbContext;
         public UserRepository(NTQDbContext dbContext) : base(dbContext)
         {
-            DbContext = dbContext;
+            _dbContext = dbContext;
         }
 
         async Task<User> IUserRepository.GetUser(string email)
         {
-            var user = await DbContext.Users.Where(x=>x.Email == email).FirstOrDefaultAsync();
+            var user = await _dbContext.Users.Where(x=>x.Email == email).FirstOrDefaultAsync();
             return user;
         }
     }

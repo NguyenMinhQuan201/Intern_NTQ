@@ -1,46 +1,18 @@
-﻿using Domain.IServices.User;
-using Intern.NTQ.Domain.Models.Authen;
-using Intern.NTQ.Domain.Models.User;
-using Intern.NTQ.Infrastructure.Models.Authen;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Intern.NTQ.Domain.Features.ProductService;
+using Intern.NTQ.Domain.Models.Product;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Intern.NTQ.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    /*[Authorize]*/
-    public class UserController : ControllerBase
+    public class ProductController : Controller
     {
-        private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly IProductService _productService;
+        public ProductController(IProductService productService)
         {
-            _userService = userService;
-        }
-        [HttpPost("login")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Authenticate([FromBody] LoginRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-            else
-            {
-                var resultToken = await _userService.Login(request);
-
-                if (resultToken.IsSuccessed == false)
-                {
-                    return BadRequest(resultToken);
-                }
-
-                return Ok(resultToken);
-            }
+            _productService=productService;
         }
         [HttpPost("create")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Create([FromBody] UserCreateRequest request)
+        public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -48,7 +20,7 @@ namespace Intern.NTQ.Api.Controllers
             }
             else
             {
-                var resultToken = await _userService.Create(request);
+                var resultToken = await _productService.Create(request);
 
                 if (resultToken.IsSuccessed == false)
                 {
@@ -59,7 +31,7 @@ namespace Intern.NTQ.Api.Controllers
             }
         }
         [HttpPut("edit")]
-        public async Task<IActionResult> Edit( int id, [FromBody] UserEditRequest request)
+        public async Task<IActionResult> Edit(int id, [FromBody] ProductEditRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -67,7 +39,7 @@ namespace Intern.NTQ.Api.Controllers
             }
             else
             {
-                var resultToken = await _userService.Edit(id,request);
+                var resultToken = await _productService.Edit(id, request);
 
                 if (resultToken.IsSuccessed == false)
                 {
@@ -86,7 +58,7 @@ namespace Intern.NTQ.Api.Controllers
             }
             else
             {
-                var resultToken = await _userService.Remove(id);
+                var resultToken = await _productService.Remove(id);
 
                 if (resultToken.IsSuccessed == false)
                 {
@@ -105,7 +77,7 @@ namespace Intern.NTQ.Api.Controllers
             }
             else
             {
-                var resultToken = await _userService.UnRemove(id);
+                var resultToken = await _productService.UnRemove(id);
 
                 if (resultToken.IsSuccessed == false)
                 {
@@ -115,8 +87,8 @@ namespace Intern.NTQ.Api.Controllers
                 return Ok(resultToken);
             }
         }
-        [HttpGet("users")]
-        public async Task<IActionResult> ListUser(int? pageSize, int? pageIndex, string? search)
+        [HttpGet("products")]
+        public async Task<IActionResult> List(int? pageSize, int? pageIndex, string? search)
         {
             if (!ModelState.IsValid)
             {
@@ -124,7 +96,7 @@ namespace Intern.NTQ.Api.Controllers
             }
             else
             {
-                var resultToken = await _userService.GetAll(pageSize, pageIndex, search);
+                var resultToken = await _productService.GetAll(pageSize, pageIndex, search);
 
                 if (resultToken.IsSuccessed == false)
                 {
@@ -143,7 +115,7 @@ namespace Intern.NTQ.Api.Controllers
             }
             else
             {
-                var resultToken = await _userService.GetById(id);
+                var resultToken = await _productService.GetById(id);
 
                 if (resultToken.IsSuccessed == false)
                 {

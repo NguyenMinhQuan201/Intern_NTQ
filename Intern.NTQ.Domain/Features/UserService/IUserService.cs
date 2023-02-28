@@ -14,5 +14,6 @@ namespace Domain.IServices.User
         public Task<ApiResult<bool>> Remove(int id);
         public Task<ApiResult<bool>> UnRemove(int id);
         public Task<ApiResult<PagedResult<UserVm>>> GetAll(int?pageSize, int?pageIndex, string?search);
+        public Task<ApiResult<UserVm>> GetById(int id);
     }
 }

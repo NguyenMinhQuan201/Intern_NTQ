@@ -1,5 +1,9 @@
+using Domain.Common.FileStorage;
 using Domain.IServices.User;
 using Infrastructure.EF;
+using Intern.NTQ.Domain.Features.ProductService;
+using Intern.NTQ.Infrastructure.Reponsitories.ProductImageReponsitories;
+using Intern.NTQ.Infrastructure.Repositories.ProductRepository;
 using Intern.NTQ.Infrastructure.Repositories.UserReponsitories;
 using Intern.NTQ.Infrastructure.Repositories.UserRepositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<NTQDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("NTQDb")));
 // Add services to the container.
-
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger eShop Solution", Version = "v1" });
@@ -76,7 +80,12 @@ builder.Services.AddAuthentication(opt =>
 builder.Services.AddAuthorization();
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<IStorageService, FileStorageService>();
+
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IProductImageRepository, ProductImageRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

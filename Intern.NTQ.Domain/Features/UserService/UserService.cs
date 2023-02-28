@@ -25,7 +25,7 @@ namespace Domain.IServices.User
             _configuration = configuration;
         }
 
-        async public Task<ApiResult<UserCreateRequest>> Create(UserCreateRequest request)
+        public async Task<ApiResult<UserCreateRequest>> Create(UserCreateRequest request)
         {
             var obj = await _userRepository.GetUser(request.Email);
             if (obj != null)
@@ -37,9 +37,9 @@ namespace Domain.IServices.User
                 Email = request.Email,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                DeleteAt = null,
-                CreateAt = DateTime.Now,
-                UpdateAt = request.UpdateAt,
+                DeletedAt = null,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = request.UpdateAt,
                 Role = request.role,
                 PassWord = request.PassWord,
                 Status = 1,
@@ -76,7 +76,7 @@ namespace Domain.IServices.User
             return new ApiErrorResult<LoginRespon>("None");
         }
 
-        async public Task<ApiResult<UserEditRequest>> Edit(int id, UserEditRequest request)
+        public async Task<ApiResult<UserEditRequest>> Edit(int id, UserEditRequest request)
         {
             var obj = await _userRepository.GetById(id);
             if (obj == null)
@@ -86,9 +86,9 @@ namespace Domain.IServices.User
             obj.Email = request.Email;
             obj.FirstName = request.FirstName;
             obj.LastName = request.LastName;
-            obj.DeleteAt = null;
-            obj.CreateAt = request.CreateAt;
-            obj.UpdateAt = DateTime.Now;
+            obj.DeletedAt = null;
+            obj.CreatedAt = request.CreateAt;
+            obj.UpdatedAt = DateTime.Now;
             obj.Role = request.role;
             obj.PassWord = request.PassWord;
             obj.Status = request.Status;
@@ -106,33 +106,33 @@ namespace Domain.IServices.User
             };
         }
 
-        async public Task<ApiResult<bool>> Remove(int id)
+        public async Task<ApiResult<bool>> Remove(int id)
         {
             var obj = await _userRepository.GetById(id);
-            if (obj != null)
+            if (obj == null)
             {
                 return new ApiErrorResult<bool>("Không thành công");
             }
             obj.Status = 2;
-            obj.DeleteAt = DateTime.Now;
+            obj.DeletedAt = DateTime.Now;
             await _userRepository.UpdateAsync(obj);
             return new ApiSuccessResult<bool>();
         }
 
-        async public Task<ApiResult<bool>> UnRemove(int id)
+        public async Task<ApiResult<bool>> UnRemove(int id)
         {
             var obj = await _userRepository.GetById(id);
-            if (obj != null)
+            if (obj == null)
             {
                 return new ApiErrorResult<bool>("Không thành công");
             }
             obj.Status = 1;
-            obj.DeleteAt = null;
+            obj.DeletedAt = null;
             await _userRepository.UpdateAsync(obj);
             return new ApiSuccessResult<bool>();
         }
 
-        async public Task<ApiResult<PagedResult<UserVm>>> GetAll(int?pageSize, int?pageIndex, string?search)
+        public async Task<ApiResult<PagedResult<UserVm>>> GetAll(int? pageSize, int? pageIndex, string? search)
         {
             if (pageSize != null)
             {
@@ -156,9 +156,9 @@ namespace Domain.IServices.User
                 .Select(x => new UserVm()
                 {
                     Email = x.Email,
-                    CreateAt = x.CreateAt.Value,
-                    UpdateAt = x.UpdateAt.Value,
-                    DeleteAt = x.DeleteAt.Value,
+                    CreateAt = x.CreatedAt,
+                    UpdateAt = x.UpdatedAt,
+                    DeleteAt = x.DeletedAt,
                     FirstName = x.FirstName,
                     Id = x.Id,
                     LastName = x.LastName,
@@ -176,6 +176,28 @@ namespace Domain.IServices.User
                 return new ApiErrorResult<PagedResult<UserVm>>("Khong co gi ca");
             }
             return new ApiSuccessResult<PagedResult<UserVm>>(pagedResult);
+        }
+
+        public async Task<ApiResult<UserVm>> GetById(int id)
+        {
+            var obj = await _userRepository.GetById(id);
+            if (obj == null)
+            {
+                return new ApiErrorResult<UserVm>("Không tồn tại");
+            }
+            var result = new UserVm()
+            {
+                Id = id,
+                FirstName = obj.FirstName,
+                LastName = obj.LastName,
+                CreateAt = obj.CreatedAt,
+                UpdateAt = obj.UpdatedAt,
+                DeleteAt = obj.DeletedAt,
+                Email = obj.Email,
+                Status = obj.Status,
+                PassWord = obj.PassWord,
+            };
+            return new ApiSuccessResult<UserVm>(result);    
         }
     }
 }

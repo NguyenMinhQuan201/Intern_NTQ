@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace Intern.NTQ.Infrastructure.Entities
 {
-    public class User
+    public class Product
     {
         public int Id { get; set; }
-        public string?Email { get; set; }
-        public string?FirstName { get; set; }
-        public string?LastName { get; set; }
-        public string?PassWord { get; set; }
+        public string?Name { get; set; }
+        public string?Slug { get; set; }
+        public string? ProductDetail { get; set; }
+        public decimal? Price { get; set; }
+        public bool? Trending { get; set; }
+        public ICollection<ProductImg>? ProductImgs { get; set; }
+        public int Status { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
         public DateTime? DeletedAt { get; set; }
-        public int Status { get; set; }
-        public string ?Role { get; set; }
-        public ICollection<Review>? Reviews { get; set; }
     }
 }
