@@ -17,7 +17,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Login/Index/";
-                    options.AccessDeniedPath = "/Home/Privacy";
+                    options.AccessDeniedPath = "/User/Forbiden";
                 });
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IAuthenticateService, AuthenticateService>();

@@ -49,7 +49,8 @@ namespace Intern.NTQ.Manager.Controllers
             var LoginRepon = await _authenticateService.GetToken(request);
             if (LoginRepon.IsSuccessed == false)
             {
-                return RedirectToAction("Privacy", "Home");
+                ModelState.AddModelError("", LoginRepon.Message);
+                return View();
             }
             var userPrincipal = this.ValidateToken(LoginRepon.ResultObj.Token);
             var authProperties = new AuthenticationProperties()
@@ -63,6 +64,13 @@ namespace Intern.NTQ.Manager.Controllers
                 userPrincipal,
                 authProperties
                 );
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(LoginRepon.ResultObj.Token);
+            var role = jwtSecurityToken.Claims.First(claim => claim.Type == "role").Value;
+            if (role == "user")
+            {
+                return RedirectToAction("Index", "User");
+            }
             return RedirectToAction("Index", "Home");
         }
     }
