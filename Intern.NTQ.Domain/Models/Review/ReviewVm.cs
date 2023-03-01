@@ -12,6 +12,7 @@ namespace Intern.NTQ.Domain.Models.Review
         public string Title { get; set; }
         public string Prize { get; set; }
         public int Status { get; set; }
+        public int UserId { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
