@@ -16,13 +16,13 @@ using System.Threading.Tasks;
 
 namespace Intern.NTQ.Domain.Features.ProductService
 {
-    public class ProductService : IProductService
+    public class ReviewtService : IProductService
     {
         private readonly IStorageService _storageService;
         private readonly IProductRepository _productRepository;
         private readonly IProductImageRepository _productImageRepository;
         private readonly IMapper _mapper;
-        public ProductService(IStorageService storageService, IProductRepository productRepository , IProductImageRepository productImageRepository,IMapper mapper)
+        public ReviewtService(IStorageService storageService, IProductRepository productRepository , IProductImageRepository productImageRepository,IMapper mapper)
         {
             _storageService = storageService;
             _productRepository = productRepository;
@@ -134,7 +134,7 @@ namespace Intern.NTQ.Domain.Features.ProductService
             if (!string.IsNullOrEmpty(search))
             {
                 Expression<Func<Product, bool>> expression = x => x.Name.Contains(search);
-                query = await _productRepository.GetAll(pageSize, pageIndex, expression);
+                query = await _productRepository.GetAllProduct(pageSize, pageIndex, expression);
                 totalRow = await _productRepository.CountAsync(expression);
             }
             var data = query

@@ -2,8 +2,10 @@ using Domain.Common.FileStorage;
 using Domain.IServices.User;
 using Infrastructure.EF;
 using Intern.NTQ.Domain.Features.ProductService;
+using Intern.NTQ.Domain.Features.ReviewService;
 using Intern.NTQ.Infrastructure.Reponsitories.ProductImageReponsitories;
 using Intern.NTQ.Infrastructure.Repositories.ProductRepository;
+using Intern.NTQ.Infrastructure.Repositories.ReviewRepository;
 using Intern.NTQ.Infrastructure.Repositories.UserReponsitories;
 using Intern.NTQ.Infrastructure.Repositories.UserRepositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -80,11 +82,13 @@ builder.Services.AddAuthentication(opt =>
 builder.Services.AddAuthorization();
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<IProductService, ReviewtService>();
+builder.Services.AddTransient<IReviewService, ReviewService>();
 builder.Services.AddTransient<IStorageService, FileStorageService>();
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IReviewRepository, ReviewRepository>();
 builder.Services.AddTransient<IProductImageRepository, ProductImageRepository>();
 var app = builder.Build();
 
