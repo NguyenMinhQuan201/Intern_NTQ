@@ -1,13 +1,8 @@
 ﻿using Intern.NTQ.Domain.Models.Product;
 using Intern.NTQ.Library.Common;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Intern.NTQ.Domain.Features.ProductService
+namespace Intern.NTQ.Domain.Features
 {
     public interface IProductService
     {

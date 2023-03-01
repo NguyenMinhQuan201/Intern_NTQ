@@ -1,4 +1,4 @@
-﻿using Intern.NTQ.Domain.Features.ReviewService;
+﻿using Intern.NTQ.Domain.Features;
 using Intern.NTQ.Domain.Models.Review;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

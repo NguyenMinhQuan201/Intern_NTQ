@@ -88,6 +88,7 @@ namespace Intern.NTQ.Domain.Features.ReviewService
                     CreatedAt = x.CreatedAt,
                     Prize= x.Prize,
                     Title= x.Title,
+                    UserId= x.UserId,
                 }).ToList();
             var pagedResult = new PagedResult<ReviewVm>()
             {
@@ -119,6 +120,7 @@ namespace Intern.NTQ.Domain.Features.ReviewService
                 CreatedAt = obj.CreatedAt,
                 Prize = obj.Prize,
                 Title = obj.Title,
+                UserId = obj.UserId,
             };
             return new ApiSuccessResult<ReviewVm>(result);
         }

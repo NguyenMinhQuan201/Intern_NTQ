@@ -1,4 +1,4 @@
-﻿using Intern.NTQ.Domain.Features.ProductService;
+﻿using Intern.NTQ.Domain.Features;
 using Intern.NTQ.Domain.Models.Product;
 using Microsoft.AspNetCore.Mvc;
 

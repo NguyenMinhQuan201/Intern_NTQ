@@ -1,28 +1,24 @@
 ﻿using AutoMapper;
 using Domain.Common.FileStorage;
+using Intern.NTQ.Domain.Features;
 using Intern.NTQ.Domain.Models.Product;
 using Intern.NTQ.Infrastructure.Entities;
 using Intern.NTQ.Infrastructure.Reponsitories.ProductImageReponsitories;
 using Intern.NTQ.Infrastructure.Repositories.ProductRepository;
 using Intern.NTQ.Library.Common;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Intern.NTQ.Domain.Features.ProductService
+namespace Intern.NTQ.Infrastructure.Services
 {
-    public class ReviewtService : IProductService
+    public class ProductService : IProductService
     {
         private readonly IStorageService _storageService;
         private readonly IProductRepository _productRepository;
         private readonly IProductImageRepository _productImageRepository;
         private readonly IMapper _mapper;
-        public ReviewtService(IStorageService storageService, IProductRepository productRepository , IProductImageRepository productImageRepository,IMapper mapper)
+        public ProductService(IStorageService storageService, IProductRepository productRepository , IProductImageRepository productImageRepository,IMapper mapper)
         {
             _storageService = storageService;
             _productRepository = productRepository;

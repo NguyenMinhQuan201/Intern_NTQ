@@ -1,4 +1,4 @@
-﻿using Domain.IServices.User;
+﻿using Intern.NTQ.Domain.Features;
 using Intern.NTQ.Domain.Models.Authen;
 using Intern.NTQ.Domain.Models.User;
 using Intern.NTQ.Infrastructure.Models.Authen;

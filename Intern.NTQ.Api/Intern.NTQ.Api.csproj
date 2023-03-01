@@ -17,12 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Intern.NTQ.Domain\Intern.NTQ.Domain.csproj" />
-    <ProjectReference Include="..\Intern.NTQ.Infrastructure\Intern.NTQ.Infrastructure.csproj" />
+    <Folder Include="wwwroot\user_content\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\user_content\" />
+    <ProjectReference Include="..\Intern.NTQ.Domain\Intern.NTQ.Domain.csproj" />
+    <ProjectReference Include="..\Intern.NTQ.Infrastructure\Intern.NTQ.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

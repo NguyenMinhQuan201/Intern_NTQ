@@ -26,7 +26,10 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Intern.NTQ.Domain\Intern.NTQ.Domain.csproj" />
   </ItemGroup>
 
 </Project>
