@@ -6,7 +6,7 @@ using System.Diagnostics;
 namespace Intern.NTQ.Manager.Controllers
 {
     [Authorize(Roles = "admin")]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -17,6 +17,7 @@ namespace Intern.NTQ.Manager.Controllers
 
         public IActionResult Index()
         {
+            var a = 3;
             return View();
         }
 

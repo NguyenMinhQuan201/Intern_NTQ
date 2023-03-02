@@ -23,12 +23,31 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">List User</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">List Shop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">List Review</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">List Product</a>
                         </li>
                     </ul>
                 </div>
-                <div class="col-1">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                <div class="col-4">
+                    @if (@ViewBag.Email == null)
+                    {
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                    }
+                    else
+                    {
+                        <div style="display:flex">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">MyProfile @ViewBag.Email</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Logout</a>
+                        </div>
+                    }
                 </div>
             </div>
         </nav>

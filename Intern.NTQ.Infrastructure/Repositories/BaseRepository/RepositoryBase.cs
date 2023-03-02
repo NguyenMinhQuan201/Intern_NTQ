@@ -78,5 +78,25 @@ namespace Intern.NTQ.Infrastructure.Common.BaseRepository
             var query = await _db.Set<T>().Where(expression).CountAsync();
             return query;
         }
+
+        public Task<List<T>> GetAllInclue(int? pageSize, int? pageIndex, Expression<Func<T, bool>> expressionWhere, Expression<Func<T, ICollection<T>>> expressionInclue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<T>> GetAllInclue(int? pageSize, int? pageIndex, Expression<Func<T, ICollection<T>>> expressionInclue)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<T> IRepositoryBase<T>.GetByCondition(Expression<Func<T, bool>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<T>> GetListByCondition(Expression<Func<T, bool>> expression)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

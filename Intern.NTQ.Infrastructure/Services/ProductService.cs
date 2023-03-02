@@ -127,6 +127,7 @@ namespace Intern.NTQ.Infrastructure.Services
             }
             var totalRow = await _productRepository.CountAsync();
             var query = await _productRepository.GetAllProduct(pageSize, pageIndex);
+            Expression<Func<Product, ICollection<ProductImg>>> expressionInclude = x => x.ProductImgs;
             if (!string.IsNullOrEmpty(search))
             {
                 Expression<Func<Product, bool>> expression = x => x.Name.Contains(search);

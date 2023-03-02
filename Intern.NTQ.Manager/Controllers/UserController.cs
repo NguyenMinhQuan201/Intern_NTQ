@@ -2,7 +2,7 @@
 
 namespace Intern.NTQ.Manager.Controllers
 {
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         public IActionResult Index()
         {

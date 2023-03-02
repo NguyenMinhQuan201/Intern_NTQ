@@ -132,7 +132,6 @@ namespace Domain.IServices.User
             await _userRepository.UpdateAsync(obj);
             return new ApiSuccessResult<bool>();
         }
-
         public async Task<ApiResult<PagedResult<UserVm>>> GetAll(int? pageSize, int? pageIndex, string? search)
         {
             if (pageSize != null)
