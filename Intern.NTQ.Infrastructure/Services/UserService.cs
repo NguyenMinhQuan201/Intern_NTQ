@@ -45,7 +45,7 @@ namespace Domain.IServices.User
                 PassWord = request.PassWord,
                 Status = 1,
             };
-            await _userRepository.CreateAsync(obj);
+            await _userRepository.CreateAsync(user);
             return new ApiSuccessResult<UserCreateRequest>(request);
         }
 
@@ -90,9 +90,7 @@ namespace Domain.IServices.User
             obj.DeletedAt = null;
             obj.CreatedAt = request.CreateAt;
             obj.UpdatedAt = DateTime.Now;
-            obj.Role = request.role;
             obj.PassWord = request.PassWord;
-            obj.Status = request.Status;
             await _userRepository.UpdateAsync(obj);
             return new ApiSuccessResult<UserEditRequest>(request);
         }
@@ -180,6 +178,7 @@ namespace Domain.IServices.User
 
         public async Task<ApiResult<UserVm>> GetById(int id)
         {
+            
             var obj = await _userRepository.GetById(id);
             if (obj == null)
             {
@@ -198,6 +197,29 @@ namespace Domain.IServices.User
                 PassWord = obj.PassWord,
             };
             return new ApiSuccessResult<UserVm>(result);    
+        }
+
+        public async Task<ApiResult<UserVm>> GetByUserName(string name)
+        {
+            Expression<Func<Intern.NTQ.Infrastructure.Entities.User, bool>> expression = x => x.Email == name;
+            var obj = await _userRepository.GetById(expression);
+            if (obj == null)
+            {
+                return new ApiErrorResult<UserVm>("Không tồn tại");
+            }
+            var result = new UserVm()
+            {
+                Id = obj.Id,
+                FirstName = obj.FirstName,
+                LastName = obj.LastName,
+                CreateAt = obj.CreatedAt,
+                UpdateAt = obj.UpdatedAt,
+                DeleteAt = obj.DeletedAt,
+                Email = obj.Email,
+                Status = obj.Status,
+                PassWord = obj.PassWord,
+            };
+            return new ApiSuccessResult<UserVm>(result);
         }
     }
 }

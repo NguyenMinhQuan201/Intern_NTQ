@@ -21,6 +21,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                 });
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IAuthenticateService, AuthenticateService>();
+builder.Services.AddTransient<IAdminService,AdminService>();
 
 var app = builder.Build();
 

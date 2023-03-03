@@ -10,7 +10,7 @@ namespace Intern.NTQ.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    /*[Authorize]*/
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -144,6 +144,25 @@ namespace Intern.NTQ.Api.Controllers
             else
             {
                 var resultToken = await _userService.GetById(id);
+
+                if (resultToken.IsSuccessed == false)
+                {
+                    return BadRequest();
+                }
+
+                return Ok(resultToken);
+            }
+        }
+        [HttpGet("getbyemail")]
+        public async Task<IActionResult> GetByUserName(string email)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                var resultToken = await _userService.GetByUserName(email);
 
                 if (resultToken.IsSuccessed == false)
                 {

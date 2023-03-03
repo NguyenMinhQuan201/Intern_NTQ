@@ -16,6 +16,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors();
 builder.Services.AddDbContext<NTQDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("NTQDb")));
 // Add services to the container.

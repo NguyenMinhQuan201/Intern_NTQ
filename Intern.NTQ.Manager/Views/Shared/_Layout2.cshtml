@@ -42,8 +42,7 @@
                     else
                     {
                         <div style="display:flex">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">MyProfile @ViewBag.Email</a>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Logout</a>
+                            <a class="nav-link text-dark" asp-controller="User" asp-action="Profile" asp-route-email="@ViewBag.Email">MyProfile User @ViewBag.Email</a>
                         </div>
                     }
                 </div>

@@ -1,4 +1,4 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -10,13 +10,13 @@
   "profiles": {
     "Intern.NTQ.Api": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:7188;http://localhost:5188",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "https://localhost:7188;http://localhost:5188",
+      "dotnetRunMessages": true
     },
     "IIS Express": {
       "commandName": "IISExpress",

@@ -60,4 +60,11 @@
     <ProjectReference Include="..\Intern.NTQ.Domain\Intern.NTQ.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\User\Profile.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
