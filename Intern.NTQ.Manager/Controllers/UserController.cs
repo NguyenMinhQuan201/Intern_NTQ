@@ -36,5 +36,6 @@ namespace Intern.NTQ.Manager.Controllers
             }
             return RedirectToAction("Profile", "User");
         }
+
     }
 }

@@ -23,7 +23,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">List User</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">List User</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">List Shop</a>
@@ -44,8 +44,7 @@
                     else
                     {
                         <div style="display:flex">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">MyProfile @ViewBag.Email</a>
-                            
+                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="Profile" asp-route-email="@ViewBag.Email">MyProfile User @ViewBag.Email</a>
                         </div>
                     }
                 </div>

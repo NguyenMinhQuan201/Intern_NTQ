@@ -71,7 +71,7 @@ namespace Intern.NTQ.Manager.Controllers
             {
                 return RedirectToAction("Index", "User");
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Admin");
         }
     }
 }

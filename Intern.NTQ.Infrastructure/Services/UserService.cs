@@ -149,8 +149,7 @@ namespace Domain.IServices.User
                 totalRow = await _userRepository.CountAsync(expression);
             }
             //Paging
-            var data = query.Skip((pageIndex.Value - 1) * pageSize.Value)
-                .Take(pageSize.Value)
+            var data = query
                 .Select(x => new UserVm()
                 {
                     Email = x.Email,
@@ -161,7 +160,8 @@ namespace Domain.IServices.User
                     Id = x.Id,
                     LastName = x.LastName,
                     Status = x.Status,
-                }).ToList();
+                    Role = x.Role,
+                }).OrderByDescending(x=>x.CreateAt).ToList();
             var pagedResult = new PagedResult<UserVm>()
             {
                 TotalRecord = totalRow,

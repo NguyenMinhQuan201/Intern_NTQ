@@ -12,8 +12,10 @@ namespace Intern.NTQ.Manager.Services.Authen
         Task<ApiResult<bool>> Create(UserCreateRequest request);
         Task<ApiResult<UserEditViewModel>> Edit(UserEditViewModel request);
         Task<ApiResult<bool>> Remove(int id);
+        Task<ApiResult<bool>> UnRemove(int id);
         Task<ApiResult<UserViewModel>> GetByCondition(string request);
         Task<ApiResult<UserViewModel>> GetById(string request);
+        Task<ApiResult<PagedResult<UserViewModel>>> GetAll(int?pageSize,int?pageIndex,string?search);
     }
     public class AdminService : IAdminService
     {
@@ -33,8 +35,7 @@ namespace Intern.NTQ.Manager.Services.Authen
 
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsync($"/api/Users", httpContent);
+            var response = await client.PostAsync($"/api/User/create", httpContent);
             var result = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
@@ -57,6 +58,21 @@ namespace Intern.NTQ.Manager.Services.Authen
                 return JsonConvert.DeserializeObject<ApiSuccessResult<UserEditViewModel>>(result);
 
             return JsonConvert.DeserializeObject<ApiErrorResult<UserEditViewModel>>("loi");
+        }
+
+        public async Task<ApiResult<PagedResult<UserViewModel>>> GetAll(int? pageSize, int? pageIndex, string? search)
+        {
+
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/User/users?pageSize={pageSize}&pageIndex={pageIndex}&search={search}");
+            var result = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<UserViewModel>>>(result);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<PagedResult<UserViewModel>>>("loi");
         }
 
         public async Task<ApiResult<UserViewModel>> GetByCondition(string request)
@@ -98,7 +114,23 @@ namespace Intern.NTQ.Manager.Services.Authen
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.GetAsync($"/api/Users/remove?id={id}");
+            var response = await client.DeleteAsync($"/api/User/remove?id={id}");
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
+            }
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+        }
+
+        public async Task<ApiResult<bool>> UnRemove(int id)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.DeleteAsync($"/api/User/unremove?id={id}");
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {

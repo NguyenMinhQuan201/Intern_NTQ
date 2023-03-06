@@ -1,0 +1,103 @@
+﻿@model Intern.NTQ.Library.Common.PagedResult<UserViewModel>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm("Index", "Admin", FormMethod.Get))
+{
+    <p>
+        Title: @Html.TextBox("search") <input type="submit" value="Tìm kiếm" />
+    </p>
+    <p>
+        Filter:
+        <select name="option" id="cars">
+            <option value="Admin">Admin</option>
+            <option value="Removed">Removed</option>
+            <option value="UnRemove">UnRemove</option>
+            <option value="Default">Default</option>
+        </select>
+        <input type="submit" value="Tìm kiếm" />
+    </p>
+}
+
+@if (Model.Items.Count > 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                FirstName
+            </th>
+            <th>
+                LastName
+            </th>
+            <th>
+                CreateAt
+            </th>
+
+        </tr>
+
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateAt)
+                </td>
+
+                @if (item.Status != 2)
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { email=item.Email }) |
+                        @Html.ActionLink("Details", "Details", new { id=item.Email }) |
+                        @Html.ActionLink("Delete", "Delete", new { id=item.Id },new {@class= "buttonDelete"})
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.ActionLink("UmRemove", "UmRemove", new { id=item.Id })
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+    @for (var i = 0; i < Model.PageCount; i++)
+    {
+        @Html.ActionLink((i+1).ToString(), "Index", new { page=i+1,search = ViewBag.Search })
+    }
+
+}
+else
+{
+    <p>NOTHING</p>
+}
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            console.log("ready!");
+            $('.buttonDelete').click(function() {
+                return confirm('Do you Want to delete?')
+            });
+        });
+    </script>
+}

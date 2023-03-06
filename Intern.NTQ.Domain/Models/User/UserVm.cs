@@ -19,5 +19,6 @@ namespace Intern.NTQ.Domain.Models.User
         public DateTime?UpdateAt { get; set; }
         public DateTime?DeleteAt { get; set; }
         public int Status { get; set; }
+        public string? Role { get; set; }
     }
 }

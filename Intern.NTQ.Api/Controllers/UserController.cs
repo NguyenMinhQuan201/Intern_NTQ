@@ -52,7 +52,7 @@ namespace Intern.NTQ.Api.Controllers
 
                 if (resultToken.IsSuccessed == false)
                 {
-                    return BadRequest();
+                    return BadRequest(resultToken.Message);
                 }
 
                 return Ok(resultToken);
