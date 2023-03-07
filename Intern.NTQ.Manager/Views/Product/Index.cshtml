@@ -1,4 +1,4 @@
-﻿@model Intern.NTQ.Library.Common.PagedResult<UserViewModel>
+﻿@model Intern.NTQ.Library.Common.PagedResult<ProductViewModel>
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
 @{
@@ -12,7 +12,7 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 
-@using (Html.BeginForm("Index", "Admin", FormMethod.Get))
+@using (Html.BeginForm("Index", "Product", FormMethod.Get))
 {
     <p>
         Title: @Html.TextBox("search") <input type="submit" value="Tìm kiếm" />
@@ -20,7 +20,7 @@
     <p>
         Filter:
         <select name="option" id="option">
-            <option value="Admin">Admin</option>
+            <option value="Trending">Trending</option>
             <option value="Removed">Removed</option>
             <option value="Default">Default</option>
         </select>
@@ -33,16 +33,19 @@
     <table class="table">
         <tr>
             <th>
-                Email
+                ID
             </th>
             <th>
-                FirstName
+                Name
             </th>
             <th>
-                LastName
+                Price
             </th>
             <th>
-                CreateAt
+                Slug
+            </th>
+            <th>
+                CreatedAt
             </th>
 
         </tr>
@@ -54,16 +57,19 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Email)
+                        @Html.DisplayFor(modelItem => item.Id)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
+                        @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
+                        @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CreateAt)
+                        @Html.DisplayFor(modelItem => item.Slug)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedAt)
                     </td>
 
                     <td>
@@ -80,20 +86,23 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Email)
+                        @Html.DisplayFor(modelItem => item.Id)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
+                        @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
+                        @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CreateAt)
+                        @Html.DisplayFor(modelItem => item.Slug)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedAt)
                     </td>
 
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { email=item.Email }) |
+                        @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
                         @Html.ActionLink("Details", "Details", new { id=item.Id }) |
                         @Html.ActionLink("Delete", "Delete", new { id=item.Id },new {@class= "buttonDelete"})
                     </td>

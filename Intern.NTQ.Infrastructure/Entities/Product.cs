@@ -20,5 +20,7 @@ namespace Intern.NTQ.Infrastructure.Entities
         public DateTime? UpdatedAt { get; set; }
 
         public DateTime? DeletedAt { get; set; }
+        public int ? View { get; set; }
+        public int ? ShopId { get; set; }
     }
 }

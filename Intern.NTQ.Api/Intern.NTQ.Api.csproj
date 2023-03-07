@@ -22,13 +22,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\user_content\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Intern.NTQ.Domain\Intern.NTQ.Domain.csproj" />
     <ProjectReference Include="..\Intern.NTQ.Infrastructure\Intern.NTQ.Infrastructure.csproj" />
     <ProjectReference Include="..\Intern.NTQ.Library\Intern.NTQ.Library.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\user_content\" />
   </ItemGroup>
 
 </Project>

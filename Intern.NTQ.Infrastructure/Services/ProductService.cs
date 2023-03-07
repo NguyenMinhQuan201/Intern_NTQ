@@ -95,7 +95,7 @@ namespace Intern.NTQ.Infrastructure.Services
                 obj.ProductImgs = temp;
             }
             await _productRepository.CreateAsync(obj);
-            return new ApiSuccessResult<ProductCreateRequest>();
+            return new ApiSuccessResult<ProductCreateRequest>(request);
         }
 
         public async Task<ApiResult<ProductEditRequest>> Edit(int id, ProductEditRequest request)
@@ -150,7 +150,7 @@ namespace Intern.NTQ.Infrastructure.Services
                     UpdatedAt=x.UpdatedAt,
                     DeletedAt=x.DeletedAt,
                     
-                }).ToList();
+                }).OrderByDescending(x=>x.Trending).ToList();
             var pagedResult = new PagedResult<ProductVm>()
             {
                 TotalRecord = totalRow,

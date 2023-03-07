@@ -43,6 +43,7 @@ namespace Intern.NTQ.Manager.Controllers
             var result = await _adminService.GetAll(10, page, search);
             if (option == "Admin")
             {
+                ViewBag.Option = option;
                 var temp = new PagedResult<UserViewModel>()
                 {
                     PageSize = result.ResultObj.PageSize,
@@ -53,19 +54,9 @@ namespace Intern.NTQ.Manager.Controllers
                 };
                 return View(temp);
             }
-            if (option == "UnRemove")
-            {
-                PagedResult<UserViewModel> temp = new PagedResult<UserViewModel>()
-                {
-                    PageSize = result.ResultObj.PageSize,
-                    PageIndex = result.ResultObj.PageIndex,
-                    TotalRecord = result.ResultObj.TotalRecord,
-                    Items = result.ResultObj.Items.Where(x => x.Status == 1).ToList()
-                };
-                return View(temp);
-            }
             if (option == "Removed")
             {
+                ViewBag.Option = option;
                 PagedResult<UserViewModel> temp = new PagedResult<UserViewModel>()
                 {
                     PageSize = result.ResultObj.PageSize,
@@ -75,13 +66,22 @@ namespace Intern.NTQ.Manager.Controllers
                 };
                 return View(temp);
             }
-            if (option == "Default")
+            if (option == "Default"||option==null)
             {
                 ViewBag.Search = "";
-                return View(result.ResultObj);
+                var temp = new PagedResult<UserViewModel>()
+                {
+                    PageSize = result.ResultObj.PageSize,
+                    PageIndex = result.ResultObj.PageIndex,
+                    TotalRecord = result.ResultObj.TotalRecord,
+                    Items = result.ResultObj.Items.Where(x => x.Status == 1).ToList(),
+                    /*Items = result.ResultObj.Items,*/
+                };
+                return View(temp);
             }
             ViewBag.Search = search;
             ViewBag.Option = option;
+            
             return View(result.ResultObj);
         }
         // GET: AdminController/Details/5
@@ -172,7 +172,7 @@ namespace Intern.NTQ.Manager.Controllers
             }
         }
 
-        public async Task<IActionResult> UnDelete(int id)
+        public async Task<IActionResult> UnRemove(int id)
         {
             try
             {

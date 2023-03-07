@@ -4,6 +4,7 @@ using Infrastructure.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Intern.NTQ.Infrastructure.Migrations
 {
     [DbContext(typeof(NTQDbContext))]
-    partial class NTQDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230307015542_AddShop")]
+    partial class AddShop
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,9 +47,6 @@ namespace Intern.NTQ.Infrastructure.Migrations
                     b.Property<string>("ProductDetail")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ShopId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Slug")
                         .HasColumnType("nvarchar(max)");
 
@@ -64,8 +63,6 @@ namespace Intern.NTQ.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ShopId");
 
                     b.ToTable("Products", (string)null);
                 });
@@ -202,13 +199,6 @@ namespace Intern.NTQ.Infrastructure.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("Intern.NTQ.Infrastructure.Entities.Product", b =>
-                {
-                    b.HasOne("Intern.NTQ.Infrastructure.Entities.Shop", null)
-                        .WithMany("Products")
-                        .HasForeignKey("ShopId");
-                });
-
             modelBuilder.Entity("Intern.NTQ.Infrastructure.Entities.ProductImg", b =>
                 {
                     b.HasOne("Intern.NTQ.Infrastructure.Entities.Product", null)
@@ -230,11 +220,6 @@ namespace Intern.NTQ.Infrastructure.Migrations
             modelBuilder.Entity("Intern.NTQ.Infrastructure.Entities.Product", b =>
                 {
                     b.Navigation("ProductImgs");
-                });
-
-            modelBuilder.Entity("Intern.NTQ.Infrastructure.Entities.Shop", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Intern.NTQ.Infrastructure.Entities.User", b =>

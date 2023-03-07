@@ -1,4 +1,6 @@
+using Intern.NTQ.Domain.Features;
 using Intern.NTQ.Manager.Services.Authen;
+using Intern.NTQ.Manager.Services.Product;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,8 +23,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                 });
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IAuthenticateService, AuthenticateService>();
-builder.Services.AddTransient<IAdminService,AdminService>();
-
+builder.Services.AddTransient<IAdminService, AdminService>();
+builder.Services.AddTransient<Intern.NTQ.Manager.Services.Product.IProductService, Intern.NTQ.Manager.Services.Product.ProductService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

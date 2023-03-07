@@ -14,6 +14,7 @@ namespace Intern.NTQ.Domain.Models.Product
         public string? ProductDetail { get; set; }
         public decimal? Price { get; set; }
         public bool? Trending { get; set; }
+        public int? ShopId { get; set; }
         public List<IFormFile>?Images { get; set; }
     }
 }

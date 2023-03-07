@@ -1,48 +1,70 @@
-﻿using Intern.NTQ.Domain.Models.User;
+﻿using Intern.NTQ.Domain.Models.Product;
 using Intern.NTQ.Library.Common;
 using Intern.NTQ.Manager.Models;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace Intern.NTQ.Manager.Services.Authen
+namespace Intern.NTQ.Manager.Services.Product
 {
-    public interface IAdminService
+    public interface IProductService
     {
-        Task<ApiResult<bool>> Create(UserCreateRequest request);
-        Task<ApiResult<UserEditViewModel>> Edit(UserEditViewModel request);
+        Task<ApiResult<bool>> Create(Models.ProductCreateRequest request);
+        Task<ApiResult<Models.ProductEditRequest>> Edit(Models.ProductEditRequest request);
         Task<ApiResult<bool>> Remove(int id);
         Task<ApiResult<bool>> UnRemove(int id);
-        Task<ApiResult<UserViewModel>> GetByCondition(string request);
-        Task<ApiResult<PagedResult<UserViewModel>>> GetAll(int?pageSize,int?pageIndex,string?search);
+        Task<ApiResult<ProductViewModel>> GetByCondition(int id);
+        Task<ApiResult<PagedResult<ProductViewModel>>> GetAll(int? pageSize, int? pageIndex, string? search);
     }
-    public class AdminService : IAdminService
+    public class ProductService : IProductService
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public AdminService(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory, IConfiguration configuration)
+        public ProductService(IHttpContextAccessor httpContextAccessor, IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
         }
-        public async Task<ApiResult<bool>> Create(UserCreateRequest request)
+        public async Task<ApiResult<bool>> Create(Models.ProductCreateRequest request)
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
 
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync($"/api/User/create", httpContent);
+            var requestContent = new MultipartFormDataContent();
+            if (request.Images != null)
+            {
+                foreach (var file in request.Images)
+                {
+
+                    byte[] data;
+                    using (var br = new BinaryReader(file.OpenReadStream()))
+                    {
+                        data = br.ReadBytes((int)file.OpenReadStream().Length);
+                    }
+                    ByteArrayContent bytes = new ByteArrayContent(data);
+                    requestContent.Add(bytes, "images", file.FileName.ToString());
+                }
+
+            }
+            requestContent.Add(new StringContent(request.Name.ToString()), "name");
+            requestContent.Add(new StringContent(request.Price.ToString()), "price");
+            requestContent.Add(new StringContent(request.ProductDetail.ToString()), "productDetail");
+            requestContent.Add(new StringContent(request.ProductDetail.ToString()), "productDetail");
+            requestContent.Add(new StringContent(request.Slug.ToString()), "slug");
+            requestContent.Add(new StringContent(request.Trending.ToString()), "trending");
+            var response = await client.PostAsync($"/api/Product/create", requestContent);
             var result = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
 
-            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>("loi");
         }
 
-        public async Task<ApiResult<UserEditViewModel>> Edit(UserEditViewModel request)
+        public async Task<ApiResult<Models.ProductEditRequest>> Edit(Models.ProductEditRequest request)
         {
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             var client = _httpClientFactory.CreateClient();
@@ -51,59 +73,42 @@ namespace Intern.NTQ.Manager.Services.Authen
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PutAsync($"/api/User/edit?id="+request.Id.ToString(), httpContent);
+            var response = await client.PutAsync($"/api/Product/edit?id=" + request.Id.ToString(), httpContent);
             var result = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<UserEditViewModel>>(result);
+                return JsonConvert.DeserializeObject<ApiSuccessResult<Models.ProductEditRequest>>(result);
 
-            return JsonConvert.DeserializeObject<ApiErrorResult<UserEditViewModel>>("loi");
+            return JsonConvert.DeserializeObject<ApiErrorResult<Models.ProductEditRequest>>("loi");
         }
 
-        public async Task<ApiResult<PagedResult<UserViewModel>>> GetAll(int? pageSize, int? pageIndex, string? search)
-        {
-
-            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
-            var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.GetAsync($"/api/User/users?pageSize={pageSize}&pageIndex={pageIndex}&search={search}");
-            var result = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<UserViewModel>>>(result);
-
-            return JsonConvert.DeserializeObject<ApiErrorResult<PagedResult<UserViewModel>>>("loi");
-        }
-
-        public async Task<ApiResult<UserViewModel>> GetByCondition(string request)
+        public async Task<ApiResult<PagedResult<ProductViewModel>>> GetAll(int? pageSize, int? pageIndex, string? search)
         {
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/Product/products?pageSize={pageSize}&pageIndex={pageIndex}&search={search}");
+            var result = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<ProductViewModel>>>(result);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<PagedResult<ProductViewModel>>>("loi");
+        }
+
+        public async Task<ApiResult<ProductViewModel>> GetByCondition(int id)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.GetAsync($"/api/User/getbyemail?email={request}");
+            var response = await client.GetAsync($"/api/Product/getbyid?id={id}");
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<UserViewModel>>(body);
+                return JsonConvert.DeserializeObject<ApiSuccessResult<ProductViewModel>>(body);
             }
-            return JsonConvert.DeserializeObject<ApiErrorResult<UserViewModel>>(body);
-        }
-
-        public async Task<ApiResult<UserViewModel>> GetById(string request)
-        {
-            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
-            var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.GetAsync($"/api/Users/getbyid?id={request}");
-            var body = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
-            {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<UserViewModel>>(body);
-            }
-            return JsonConvert.DeserializeObject<ApiErrorResult<UserViewModel>>(body);
+            return JsonConvert.DeserializeObject<ApiErrorResult<ProductViewModel>>(body);
         }
 
         public async Task<ApiResult<bool>> Remove(int id)
@@ -113,7 +118,7 @@ namespace Intern.NTQ.Manager.Services.Authen
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.DeleteAsync($"/api/User/remove?id={id}");
+            var response = await client.DeleteAsync($"/api/Product/remove?id={id}");
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
@@ -129,7 +134,7 @@ namespace Intern.NTQ.Manager.Services.Authen
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.DeleteAsync($"/api/User/unremove?id={id}");
+            var response = await client.DeleteAsync($"/api/Product/unremove?id={id}");
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {

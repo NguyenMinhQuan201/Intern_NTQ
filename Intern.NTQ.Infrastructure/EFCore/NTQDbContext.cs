@@ -17,6 +17,7 @@ namespace Infrastructure.EF
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
             modelBuilder.ApplyConfiguration(new ReviewConfiguration());
+            modelBuilder.ApplyConfiguration(new ShopConfiguration());
             //Tạo bảng được cung cấp từ Identity
             /*modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
@@ -29,6 +30,7 @@ namespace Infrastructure.EF
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductImg> ProductImgs { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Shop> Shops { get; set; }
 
     }
 }

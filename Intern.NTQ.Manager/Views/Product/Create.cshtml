@@ -1,0 +1,49 @@
+﻿@model Intern.NTQ.Manager.Models.ProductCreateRequest
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Add Product</h1>
+
+<div class="card-body">
+    <div class="col-md-4">
+        <form asp-controller="Product" enctype="multipart/form-data" asp-action="Create" asp-method="post" >
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Slug" class="control-label"></label>
+                <input asp-for="Slug" class="form-control" />
+                <span asp-validation-for="Slug" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Trending" class="control-label"></label>
+                <input asp-for="Trending" type="checkbox" />
+                <span asp-validation-for="Trending" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductDetail" class="control-label"></label>
+                <textarea asp-for="ProductDetail" class="form-control"></textarea>
+                <span asp-validation-for="ProductDetail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Images" class="control-label"></label>
+                <input asp-for="Images" type="file" multiple />
+                <span asp-validation-for="Images" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <hr />
+                <input type="submit" class="btn btn-warning" />
+            </div>
+        </form>
+    </div>
+</div>

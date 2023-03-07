@@ -70,7 +70,7 @@ namespace Intern.NTQ.Api.Controllers
                 return Ok(resultToken);
             }
         }
-        [HttpPut("unremove")]
+        [HttpDelete("unremove")]
         public async Task<IActionResult> UnRemove(int id)
         {
             if (!ModelState.IsValid)

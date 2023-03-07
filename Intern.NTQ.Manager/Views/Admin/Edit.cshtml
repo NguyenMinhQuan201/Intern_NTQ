@@ -8,7 +8,7 @@
 
 <div class="card-body">
             <div class="col-md-4">
-                <form asp-controller="User" asp-action="Profile" asp-method="post">
+                <form asp-controller="Admin" asp-action="Edit" asp-method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <input type="hidden" value="@Model.Id" asp-for="Id" class="form-control" />
