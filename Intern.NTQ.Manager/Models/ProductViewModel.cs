@@ -44,4 +44,9 @@ namespace Intern.NTQ.Manager.Models
         public int? ShopId { get; set; }
         public List<IFormFile>? Images { get; set; }
     }
+    public class AddImageRequest
+    {
+        public int Id { get; set; }
+        public List<IFormFile> ProductImageVMs { get; set; }
+    }
 }

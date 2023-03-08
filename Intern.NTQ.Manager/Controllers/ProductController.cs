@@ -1,4 +1,5 @@
-﻿using Intern.NTQ.Library.Common;
+﻿using Intern.NTQ.Domain.Models.Product;
+using Intern.NTQ.Library.Common;
 using Intern.NTQ.Manager.Models;
 using Intern.NTQ.Manager.Services.Product;
 using Microsoft.AspNetCore.Mvc;
@@ -96,7 +97,7 @@ namespace Intern.NTQ.Manager.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
+        public async Task<IActionResult> Create([FromForm] Models.ProductCreateRequest request)
         {
             try
             {
@@ -109,7 +110,7 @@ namespace Intern.NTQ.Manager.Controllers
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return RedirectToAction("Index", "Product");
             }
@@ -135,7 +136,7 @@ namespace Intern.NTQ.Manager.Controllers
         // POST: AdminController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(ProductEditRequest request)
+        public async Task<IActionResult> Edit(Models.ProductEditRequest request)
         {
             try
             {
@@ -151,7 +152,7 @@ namespace Intern.NTQ.Manager.Controllers
                 return View();
             }
         }
-        public async Task<ActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             try
             {
@@ -161,6 +162,41 @@ namespace Intern.NTQ.Manager.Controllers
                     return RedirectToAction("Index", "Product");
                 }
                 return View(result.ResultObj);
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> AddMoreImage(Models.AddImageRequest request)
+        {
+            try
+            {
+                var result = await _productService.AddImage( request);
+                if (result.IsSuccessed == true)
+                {
+                    return RedirectToAction("Details", "Product", new { id = request.Id });
+                }
+                return View(result.ResultObj);
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        public async Task<IActionResult> RemoveImage(int id ,int idProduct)
+        {
+            try
+            {
+                var result = await _productService.DeleteImage(id);
+                if (result==1)
+                {
+                    return RedirectToAction("Details", "Product", new { id = idProduct });
+                }
+                return RedirectToAction("Details", "Product", new { id = idProduct });
             }
             catch
             {

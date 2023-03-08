@@ -127,5 +127,44 @@ namespace Intern.NTQ.Api.Controllers
                 return Ok(resultToken);
             }
         }
+        [HttpDelete("remove-image")]
+        public async Task<IActionResult> RemoveImage(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                var result = await _productService.RemoveImage(id);
+
+                if (result == 0)
+                {
+                    return BadRequest();
+                }
+
+                return Ok();
+            }
+        }
+        [HttpPost("add-image")]
+        public async Task<IActionResult> AddImage([FromForm]AddImageRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                var result = await _productService.AddImage(request.Id,request.ProductImageVMs);
+
+                if (result.IsSuccessed != true)
+                {
+                    return BadRequest();
+                }
+
+                return Ok(result);
+            }
+        }
+
     }
 }

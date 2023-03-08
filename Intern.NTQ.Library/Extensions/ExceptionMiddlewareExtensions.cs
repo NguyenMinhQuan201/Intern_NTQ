@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Net;
 
@@ -18,7 +19,12 @@ namespace Intern.NTQ.Library.Extensions
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                     if (contextFeature != null)
                     {
-
+                        logger.LogError($"Somthing in my ass:{contextFeature.Error}");
+                        await context.Response.WriteAsync(new ErrorDetails
+                        {
+                            StatusCode=context.Response.StatusCode,
+                            Message="Internal Server Error",
+                        }.ToString());
                     };
                 });
             });

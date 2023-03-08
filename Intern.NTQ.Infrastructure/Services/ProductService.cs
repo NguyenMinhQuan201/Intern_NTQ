@@ -28,7 +28,7 @@ namespace Intern.NTQ.Infrastructure.Services
 
         public async Task<ApiResult<bool>> AddImage(int productId, List<IFormFile> request)
         {
-            if (productId == null)
+            if (productId != null)
             {
                 var findobj = await _productRepository.GetById(productId);
                 if (findobj == null)
@@ -57,6 +57,7 @@ namespace Intern.NTQ.Infrastructure.Services
                     findobj.ProductImgs = temp;
                 }
                 await _productRepository.UpdateAsync(obj);
+                return new ApiSuccessResult<bool>();
             }
             return new ApiErrorResult<bool>("Lỗi tham số chuyền về null hoặc trống");
         }
@@ -206,6 +207,7 @@ namespace Intern.NTQ.Infrastructure.Services
         public async Task<int> RemoveImage(int imageId)
         {
             var productImage = await _productImageRepository.GetById(imageId);
+            await _storageService.DeleteFileAsync(productImage.ImagePath);
             if (productImage == null)
             {
                 return 0;

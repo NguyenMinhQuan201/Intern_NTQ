@@ -14,6 +14,8 @@ namespace Intern.NTQ.Manager.Services.Product
         Task<ApiResult<bool>> Remove(int id);
         Task<ApiResult<bool>> UnRemove(int id);
         Task<ApiResult<ProductViewModel>> GetByCondition(int id);
+        Task<ApiResult<bool>> AddImage(Models.AddImageRequest request);
+        Task<int> DeleteImage(int id);
         Task<ApiResult<PagedResult<ProductViewModel>>> GetAll(int? pageSize, int? pageIndex, string? search);
     }
     public class ProductService : IProductService
@@ -27,6 +29,40 @@ namespace Intern.NTQ.Manager.Services.Product
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
         }
+
+        public async Task<ApiResult<bool>> AddImage(Models.AddImageRequest request)
+        {
+
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var requestContent = new MultipartFormDataContent();
+            if (request.ProductImageVMs != null)
+            {
+                foreach (var file in request.ProductImageVMs)
+                {
+
+                    byte[] data;
+                    using (var br = new BinaryReader(file.OpenReadStream()))
+                    {
+                        data = br.ReadBytes((int)file.OpenReadStream().Length);
+                    }
+                    ByteArrayContent bytes = new ByteArrayContent(data);
+                    requestContent.Add(bytes, "productImageVMs", file.FileName.ToString());
+                }
+
+            }
+            requestContent.Add(new StringContent(request.Id.ToString()), "id");
+            var response = await client.PostAsync($"/api/Product/add-image", requestContent);
+            var result = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>("loi");
+        }
+
         public async Task<ApiResult<bool>> Create(Models.ProductCreateRequest request)
         {
             var client = _httpClientFactory.CreateClient();
@@ -62,6 +98,22 @@ namespace Intern.NTQ.Manager.Services.Product
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
 
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>("loi");
+        }
+
+        public async Task<int> DeleteImage(int id)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.DeleteAsync($"/api/Product/remove-image?id={id}");
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                return 1;
+            }
+            return 0;
         }
 
         public async Task<ApiResult<Models.ProductEditRequest>> Edit(Models.ProductEditRequest request)
