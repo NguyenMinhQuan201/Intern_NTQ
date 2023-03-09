@@ -35,10 +35,6 @@ namespace Intern.NTQ.Infrastructure.Services
                 {
                     return new ApiErrorResult<bool>("Không tìm thấy đối tượng");
                 }
-                var obj = new Infrastructure.Entities.Product()
-                {
-
-                };
                 var temp = new List<ProductImg>();
                 if (request != null)
                 {
@@ -56,7 +52,7 @@ namespace Intern.NTQ.Infrastructure.Services
                     }
                     findobj.ProductImgs = temp;
                 }
-                await _productRepository.UpdateAsync(obj);
+                await _productRepository.UpdateAsync(findobj);
                 return new ApiSuccessResult<bool>();
             }
             return new ApiErrorResult<bool>("Lỗi tham số chuyền về null hoặc trống");
