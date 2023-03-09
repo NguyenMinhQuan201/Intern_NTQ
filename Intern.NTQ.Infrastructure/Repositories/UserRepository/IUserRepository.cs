@@ -10,6 +10,7 @@ namespace Intern.NTQ.Infrastructure.Repositories.UserReponsitories
 {
     public interface IUserRepository : IRepositoryBase<User>
     {
+        Task<User> GetUser(string email,string pass);
         Task<User> GetUser(string email);
     }
 }

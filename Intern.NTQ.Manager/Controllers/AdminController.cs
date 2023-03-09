@@ -74,7 +74,7 @@ namespace Intern.NTQ.Manager.Controllers
                     PageSize = result.ResultObj.PageSize,
                     PageIndex = result.ResultObj.PageIndex,
                     TotalRecord = result.ResultObj.TotalRecord,
-                    Items = result.ResultObj.Items.Where(x => x.Status == 1).ToList(),
+                    Items = result.ResultObj.Items.Where(x=>x.Status==1).ToList(),
                     /*Items = result.ResultObj.Items,*/
                 };
                 return View(temp);

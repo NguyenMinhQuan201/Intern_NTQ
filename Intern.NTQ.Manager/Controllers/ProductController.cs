@@ -3,6 +3,7 @@ using Intern.NTQ.Library.Common;
 using Intern.NTQ.Manager.Models;
 using Intern.NTQ.Manager.Services.Product;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Intern.NTQ.Manager.Controllers
 {
@@ -90,8 +91,10 @@ namespace Intern.NTQ.Manager.Controllers
             }
         }
         [HttpGet]
-        public ActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var selectListItems = await _productService.GetAllShop();
+            ViewData["IdShop"] = new SelectList(selectListItems.ResultObj, "Id", "Name");
             return View();
         }
         [HttpPost]
@@ -120,6 +123,8 @@ namespace Intern.NTQ.Manager.Controllers
         {
             try
             {
+                var selectListItems = await _productService.GetAllShop();
+                ViewData["IdShop"] = new SelectList(selectListItems.ResultObj, "Id", "Name");
                 var result = await _productService.GetByCondition(id);
                 if (result.IsSuccessed == false)
                 {
@@ -140,6 +145,7 @@ namespace Intern.NTQ.Manager.Controllers
         {
             try
             {
+                
                 var result = await _productService.Edit(request);
                 if (result.IsSuccessed == false)
                 {

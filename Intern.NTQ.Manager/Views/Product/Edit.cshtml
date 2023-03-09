@@ -10,9 +10,13 @@
     <div class="col-md-4">
         <form asp-controller="Product" enctype="multipart/form-data" asp-action="Edit" asp-method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <input type="hidden" value="@Model.Id" asp-for="Id" class="form-control" />
-                    </div>
+            <div class="form-group">
+                <input type="hidden" value="@Model.Id" asp-for="Id" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="ShopId" class="control-label"></label>
+                <select asp-for="ShopId" class="form-control" asp-items="ViewBag.IdShop"></select>
+            </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" value="@Model.Name" class="form-control" />

@@ -42,7 +42,7 @@ namespace Domain.IServices.User
                 CreatedAt = DateTime.Now,
                 UpdatedAt = request.UpdateAt,
                 Role = request.role,
-                PassWord = request.PassWord,
+                PassWord = HashPass.Hash(request.PassWord),
                 Status = 1,
             };
             await _userRepository.CreateAsync(user);
@@ -51,7 +51,7 @@ namespace Domain.IServices.User
 
         public async Task<ApiResult<LoginRespon>> Login(LoginRequest request)
         {
-            var obj = await _userRepository.GetUser(request.Email);
+            var obj = await _userRepository.GetUser(request.Email,request.Password);
             if (obj == null)
             {
                 return new ApiErrorResult<LoginRespon>("Tài khoản hoặc mật khẩu sai");
@@ -73,7 +73,7 @@ namespace Domain.IServices.User
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
             };
-            if (obj.PassWord == request.Password) return new ApiSuccessResult<LoginRespon>(getToken);
+            if (obj.PassWord == HashPass.Hash(request.Password)) return new ApiSuccessResult<LoginRespon>(getToken);
             return new ApiErrorResult<LoginRespon>("None");
         }
 
@@ -90,7 +90,7 @@ namespace Domain.IServices.User
             obj.DeletedAt = null;
             obj.CreatedAt = request.CreateAt;
             obj.UpdatedAt = DateTime.Now;
-            obj.PassWord = request.PassWord;
+            obj.PassWord = HashPass.Hash(request.PassWord);
             await _userRepository.UpdateAsync(obj);
             return new ApiSuccessResult<UserEditRequest>(request);
         }

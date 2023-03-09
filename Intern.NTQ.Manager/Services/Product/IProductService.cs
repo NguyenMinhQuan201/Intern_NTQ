@@ -17,6 +17,7 @@ namespace Intern.NTQ.Manager.Services.Product
         Task<ApiResult<bool>> AddImage(Models.AddImageRequest request);
         Task<int> DeleteImage(int id);
         Task<ApiResult<PagedResult<ProductViewModel>>> GetAll(int? pageSize, int? pageIndex, string? search);
+        Task<ApiResult<List<ProductViewModel>>> GetAllShop();
     }
     public class ProductService : IProductService
     {
@@ -145,6 +146,20 @@ namespace Intern.NTQ.Manager.Services.Product
                 return JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<ProductViewModel>>>(result);
 
             return JsonConvert.DeserializeObject<ApiErrorResult<PagedResult<ProductViewModel>>>("loi");
+        }
+
+        public async Task<ApiResult<List<ProductViewModel>>> GetAllShop()
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/Shop/shops-full");
+            var result = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<List<ProductViewModel>>>(result);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<List<ProductViewModel>>>("loi");
         }
 
         public async Task<ApiResult<ProductViewModel>> GetByCondition(int id)

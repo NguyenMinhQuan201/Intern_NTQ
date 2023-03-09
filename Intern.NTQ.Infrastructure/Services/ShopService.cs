@@ -90,6 +90,22 @@ namespace Intern.NTQ.Infrastructure.Services
             return new ApiSuccessResult<PagedResult<ShopVm>>(pagedResult);
         }
 
+        public async Task<ApiResult<List<ShopVm>>> GetAll()
+        {
+            var query = await _shopRepository.GetFull();
+            var data = query
+                .Select(x => new ShopVm()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    CreatedAt = x.CreatedAt,
+                    UpdatedAt = x.UpdatedAt,
+                    DeletedAt = x.DeletedAt,
+                    Status = x.Status,
+                }).ToList();
+            return new ApiSuccessResult<List<ShopVm>>(data);
+        }
+
         public async Task<ApiResult<ShopVm>> GetById(int id)
         {
             var obj = await _shopRepository.GetById(id);

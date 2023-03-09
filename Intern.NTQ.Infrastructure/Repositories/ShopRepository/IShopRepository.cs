@@ -10,6 +10,6 @@ namespace Intern.NTQ.Infrastructure.Repositories.ShopRepository
 {
     public interface IShopRepository : IRepositoryBase<Shop>
     {
-        
+        public Task<IEnumerable<Shop>> GetFull();
     }
 }

@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Intern.NTQ.Domain\Intern.NTQ.Domain.csproj" />
+    <ProjectReference Include="..\Intern.NTQ.Library\Intern.NTQ.Library.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,6 +8,7 @@ namespace Intern.NTQ.Manager.Models
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? Slug { get; set; }
+        public int ? ShopId { get; set; }
         public string? ProductDetail { get; set; }
         [Required]
         public decimal? Price { get; set; }

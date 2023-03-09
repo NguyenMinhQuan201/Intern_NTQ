@@ -15,6 +15,7 @@ namespace Intern.NTQ.Domain.Features
         public Task<ApiResult<bool>> Remove(int id);
         public Task<ApiResult<bool>> UnRemove(int id);
         public Task<ApiResult<PagedResult<ShopVm>>> GetAll(int? pageSize, int? pageIndex, string? search);
+        public Task<ApiResult<List<ShopVm>>> GetAll();
         public Task<ApiResult<ShopVm>> GetById(int id);
     }
 }

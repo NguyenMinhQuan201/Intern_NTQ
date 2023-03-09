@@ -22,6 +22,7 @@ namespace Intern.NTQ.Manager.Controllers
                 var jwtSecurityToken = handler.ReadJwtToken(sessions);
                 var email = jwtSecurityToken.Claims.First(claim => claim.Type == "email").Value;
                 ViewBag.Email = email;
+                ViewBag.UrlPath = "http://ntqdemo.somee.com";
             }
             base.OnActionExecuting(context);
         }

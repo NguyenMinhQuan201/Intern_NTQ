@@ -22,14 +22,14 @@ namespace Intern.NTQ.Api.Controllers
             }
             else
             {
-                var resultToken = await _productService.Create(request);
+                var result = await _productService.Create(request);
 
-                if (resultToken.IsSuccessed == false)
+                if (result.IsSuccessed == false)
                 {
                     return BadRequest();
                 }
 
-                return Ok(resultToken);
+                return Ok(result);
             }
         }
         [HttpPut("edit")]
@@ -41,14 +41,14 @@ namespace Intern.NTQ.Api.Controllers
             }
             else
             {
-                var resultToken = await _productService.Edit(id, request);
+                var result = await _productService.Edit(id, request);
 
-                if (resultToken.IsSuccessed == false)
+                if (result.IsSuccessed == false)
                 {
                     return BadRequest();
                 }
 
-                return Ok(resultToken);
+                return Ok(result);
             }
         }
         [HttpDelete("remove")]
@@ -60,14 +60,14 @@ namespace Intern.NTQ.Api.Controllers
             }
             else
             {
-                var resultToken = await _productService.Remove(id);
+                var result = await _productService.Remove(id);
 
-                if (resultToken.IsSuccessed == false)
+                if (result.IsSuccessed == false)
                 {
                     return BadRequest();
                 }
 
-                return Ok(resultToken);
+                return Ok(result);
             }
         }
         [HttpDelete("unremove")]
@@ -79,14 +79,14 @@ namespace Intern.NTQ.Api.Controllers
             }
             else
             {
-                var resultToken = await _productService.UnRemove(id);
+                var result = await _productService.UnRemove(id);
 
-                if (resultToken.IsSuccessed == false)
+                if (result.IsSuccessed == false)
                 {
                     return BadRequest();
                 }
 
-                return Ok(resultToken);
+                return Ok(result);
             }
         }
         [HttpGet("products")]
@@ -98,14 +98,14 @@ namespace Intern.NTQ.Api.Controllers
             }
             else
             {
-                var resultToken = await _productService.GetAll(pageSize, pageIndex, search);
+                var result = await _productService.GetAll(pageSize, pageIndex, search);
 
-                if (resultToken.IsSuccessed == false)
+                if (result.IsSuccessed == false)
                 {
                     return BadRequest();
                 }
 
-                return Ok(resultToken);
+                return Ok(result);
             }
         }
         [HttpGet("getbyid")]
@@ -117,14 +117,14 @@ namespace Intern.NTQ.Api.Controllers
             }
             else
             {
-                var resultToken = await _productService.GetById(id);
+                var result = await _productService.GetById(id);
 
-                if (resultToken.IsSuccessed == false)
+                if (result.IsSuccessed == false)
                 {
                     return BadRequest();
                 }
 
-                return Ok(resultToken);
+                return Ok(result);
             }
         }
         [HttpDelete("remove-image")]

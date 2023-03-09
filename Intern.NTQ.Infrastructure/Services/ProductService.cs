@@ -72,7 +72,8 @@ namespace Intern.NTQ.Infrastructure.Services
                 ProductDetail = request.ProductDetail,
                 Trending = request.Trending,
                 CreatedAt = DateTime.Now,
-                Status=1
+                Status=1,
+                ShopId=request.ShopId
             };
             var temp = new List<ProductImg>();
             if (request != null)
@@ -108,6 +109,7 @@ namespace Intern.NTQ.Infrastructure.Services
             obj.Name = request.Name;
             obj.Price = request.Price;
             obj.UpdatedAt= DateTime.Now;
+            obj.ShopId=request.ShopId;
             await _productRepository.UpdateAsync(obj);
             return new ApiSuccessResult<ProductEditRequest>(request);
         }

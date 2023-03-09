@@ -16,5 +16,10 @@ namespace Intern.NTQ.Infrastructure.Repositories.ShopRepository
         {
             _dbContext = dbContext;
         }
+        public async Task<IEnumerable<Shop>> GetFull()
+        {
+            var query = _dbContext.Shops.AsQueryable();
+            return query.ToList();
+        }
     }
 }
