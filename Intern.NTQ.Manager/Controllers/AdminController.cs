@@ -41,7 +41,7 @@ namespace Intern.NTQ.Manager.Controllers
         {
             if (page == null) page = 1;
             var result = await _adminService.GetAll(10, page, search);
-            if (option == "Admin")
+            if (option == "Admin" || ViewBag.Option == "Admin")
             {
                 ViewBag.Option = option;
                 var temp = new PagedResult<UserViewModel>()
@@ -50,11 +50,10 @@ namespace Intern.NTQ.Manager.Controllers
                     PageIndex = result.ResultObj.PageIndex,
                     TotalRecord = result.ResultObj.TotalRecord,
                     Items = result.ResultObj.Items.Where(x => x.Role == "admin").ToList(),
-                    /*Items = result.ResultObj.Items,*/
                 };
                 return View(temp);
             }
-            if (option == "Removed")
+            if (option == "Removed"|| ViewBag.Option== "Removed")
             {
                 ViewBag.Option = option;
                 PagedResult<UserViewModel> temp = new PagedResult<UserViewModel>()

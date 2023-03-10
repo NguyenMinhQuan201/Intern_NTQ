@@ -19,26 +19,26 @@ namespace Intern.NTQ.Manager.Controllers
             if (page == null) page = 1;
             var result = await _productService.GetAll(15, page, search);
             ViewBag.Search = search;
-            if (option == "Trending")
+            if (option == "Trending"|| ViewBag.Option== "Trending")
             {
                 ViewBag.Option = option;
                 var temp = new PagedResult<ProductViewModel>()
                 {
                     PageSize = result.ResultObj.PageSize,
                     PageIndex = result.ResultObj.PageIndex,
-                    TotalRecord = result.ResultObj.TotalRecord,
+                    TotalRecord = result.ResultObj.Items.Where(x => x.Trending == true).Count(),
                     Items = result.ResultObj.Items.Where(x => x.Trending == true).ToList(),
                 };
                 return View(temp);
             }
-            if (option == "Removed")
+            if (option == "Removed" || ViewBag.Option == "Removed")
             {
                 ViewBag.Option = option;
                 PagedResult<ProductViewModel> temp = new PagedResult<ProductViewModel>()
                 {
                     PageSize = result.ResultObj.PageSize,
                     PageIndex = result.ResultObj.PageIndex,
-                    TotalRecord = result.ResultObj.TotalRecord,
+                    TotalRecord = result.ResultObj.Items.Where(x => x.Status == 2).Count(),
                     Items = result.ResultObj.Items.Where(x => x.Status == 2).ToList()
                 };
                 return View(temp);
